@@ -1,21 +1,24 @@
 version: '3'
 services:
   wordpress:
-    image: wordpress
+    container_name: wordpress
+    image: wordpress:latest
     restart: always
     ports:
-      - 8080:80
+      - 8082:80
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: wordpressdb 
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: y6hsWyCxonmZJl6 
+      WORDPRESS_DB_PASSWORD: y7hsWyCxonmZJl6 
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - ./wordpress:/var/www/html
     user: 1000:1000
-
-  db:
-    image: mariadb 
+    networks:
+      - internal_network
+  wordpressdb:
+    container_name: wordpressdb
+    image: mariadb:10.6.4-focal 
     restart: always
     environment:
       MYSQL_DATABASE: wordpress
@@ -25,14 +28,20 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     user: 1001:1000
-
+    networks:
+      - internal_network
   rest-api:
+    container_name: rest-api
     build: ./rest-api
     restart: always
     ports:
       - 5000:5000
     depends_on:
-      - db
+      - wordpressdb
     volumes:
       - ./rest-api:/app
     user: 1000:1000
+    networks:
+      - internal_network
+networks:
+  internal_network:
