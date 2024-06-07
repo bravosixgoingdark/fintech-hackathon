@@ -15,14 +15,16 @@ services:
     user: 1000:1000
 
   db:
-    image: mysql:5.7
+    image: mariadb 
     restart: always
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: y6hsWyCxonmZJl6
-      MYSQL_ROOT_PASSWORD: y6hsWyCxonmZJl6 
-    user: 1000:1000
+      MYSQL_PASSWORD: y7hsWyCxonmZJl6
+      MYSQL_ROOT_PASSWORD: y7hsWyCxonmZJl6
+    volumes:
+      - ./mysql:/var/lib/mysql
+    user: 1001:1000
 
   rest-api:
     build: ./rest-api
