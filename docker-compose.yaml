@@ -1,0 +1,36 @@
+version: '3'
+services:
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: y6hsWyCxonmZJl6 
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wordpress:/var/www/html
+    user: 1000:1000
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: y6hsWyCxonmZJl6
+      MYSQL_ROOT_PASSWORD: y6hsWyCxonmZJl6 
+    user: 1000:1000
+
+  rest-api:
+    build: ./rest-api
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    volumes:
+      - ./rest-api:/app
+    user: 1000:1000
