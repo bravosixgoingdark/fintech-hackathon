@@ -5,16 +5,18 @@ import os
 
 app = Flask(__name__)
 
-# Dummy data for the application
+
 expenses = []
 budget = 0
 balance = 0
 
 def save_to_json():
+    global expenses, budget, balance  # Ensure these variables are accessible
     with open('data.json', 'w') as f:
-        json.dump({expenses: expenses, budget: budget, balance: balance}, f)
+        json.dump({"expenses": expenses, "budget": budget, "balance": balance}, f)
 
 def load_from_json():
+    global expenses, budget, balance  # Ensure these variables are accessible
     if os.path.exists('data.json') and os.path.getsize('data.json') > 0:
         with open('data.json', 'r') as f:
             data = json.load(f)
@@ -48,6 +50,11 @@ def add_expense():
     expenses.append(expense)
     save_to_json()
     return redirect(url_for('index'))
+
+@app.errorhandler(Exception)
+def all_exception_handler(error):
+   return 'Error', 500
+
 
 if __name__ == '__main__':
     load_from_json()
