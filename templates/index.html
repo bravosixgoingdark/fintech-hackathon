@@ -103,6 +103,46 @@
         </div>
       </div>
     </div>
+    <div class="card mt-4">
+      <div class="card-body">
+        <h3>Calculate Contribution</h3>
+        <form action="/" method="post">
+          <div class="form-group">
+            <label for="savings_goal">Savings Goal</label>
+            <input type="number" name="savings_goal" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="starting_balance">Starting Balance</label>
+            <input type="number" name="starting_balance" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="saving_time">Saving Time (Years)</label>
+            <input type="number" name="saving_time" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="annual_interest_rate">Annual Interest Rate (%)</label>
+            <input type="number" step="0.01" name="annual_interest_rate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="deposit_frequency">Deposit Frequency</label>
+            <select name="deposit_frequency" class="form-control">
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+      </div>
+    </div>
+    {% if contribution != 0 %} <!-- Check if contribution is set -->
+    <div class="card mt-4">
+      <div class="card-body">
+        <h4>Your monthly Contribution</h4>
+        <p>To reach your savings goal, you will need to contribute <strong>{{ contribution }}</strong> VND per period</p>
+      </div>
+    {% endif %}
   </div>
 
   <footer class="bg-dark text-white mt-4 py-3">

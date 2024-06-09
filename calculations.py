@@ -13,7 +13,7 @@ def calc_contribution_per_period(savings_goal, starting_balance, saving_time, an
     elif deposit_frequency == "yearly":
         deposits_per_year = 1
     else:
-        return "Invalid deposit frequency"
+        raise Exception("Invalid deposit frequency") 
     
     # Calculate total number of deposits
     total_deposits = saving_time * deposits_per_year
