@@ -105,7 +105,8 @@
     </div>
     <div class="card mt-4">
       <div class="card-body">
-        <h3>Calculate Contribution</h3>
+        <h3>Plan for a Savings Goal</h3>
+        <p class="text-muted">Calculate periodic desposits to reach a Savings Goal</p>
         <form action="/" method="post">
           <div class="form-group">
             <label for="savings_goal">Savings Goal</label>
@@ -120,7 +121,7 @@
             <input type="number" name="saving_time" class="form-control" required>
           </div>
         <div class="form-group">
-          <label for="bank">Select Bank</label>
+          <label for="bank">Interest rates</label>
           <select name="bank" class="form-control" id="bankSelect">
             <option value="" disabled selected>Select Bank</option>
             <option value="6">Vietcombank (6%)</option>
@@ -132,7 +133,7 @@
           </select>
         </div>
         <div class="form-group" id="customRate" style="display:none">
-          <label for="other_bank">Interest Rate</label>
+          <label for="other_bank">Custom interest Rate</label>
           <input type="number" name="custom_interest_rate" class="form-control">
         </div> 
           <div class="form-group">
