@@ -1,32 +1,30 @@
-import math
-
-# Calculate how much money you need to contribute each payment period in order to arrive at a specific savings goal. It should have the user input their savings goal (amount of money), saving time (in years), interest rate (percent), and the frequency at which they make deposits (select either weekly, monthly, quarterly or yearly)        
-def calculate_payment_amount(goal, years, interest_rate, deposit_frequency):
-    # Convert interest rate from percentage to decimal
-    interest_rate_decimal = interest_rate / 100
+# This function takes the user's input for the savings goal, starting balance, saving time, annual interest rate, and payment frequency. Then, it calculates and returns the contribution needed per deposit period to reach the specified savings goal.
+def calc_contribution_per_period(savings_goal, starting_balance, saving_time, annual_interest_rate, deposit_frequency):
+    # Convert annual interest rate to decimal
+    annual_interest_rate_decimal = annual_interest_rate / 100
     
-    # Determine number of deposits per year
-    if deposit_frequency.lower() == 'weekly':
+    # Determine the number of deposits per year based on deposit frequency
+    if deposit_frequency == "weekly":
         deposits_per_year = 52
-    elif deposit_frequency.lower() == 'monthly':
+    elif deposit_frequency == "monthly":
         deposits_per_year = 12
-    elif deposit_frequency.lower() == 'quarterly':
+    elif deposit_frequency == "quarterly":
         deposits_per_year = 4
-    elif deposit_frequency.lower() == 'yearly':
+    elif deposit_frequency == "yearly":
         deposits_per_year = 1
     else:
-        print("Invalid deposit frequency. Please choose from weekly, monthly, quarterly, or yearly.")
-        return None
+        return "Invalid deposit frequency"
     
-    # Calculate number of periods
-    total_periods = years * deposits_per_year
+    # Calculate total number of deposits
+    total_deposits = saving_time * deposits_per_year
     
-    # Calculate future value factor
-    future_value_factor = (1 + interest_rate_decimal / deposits_per_year) ** total_periods
+    # Calculate periodic interest rate
+    periodic_interest_rate = annual_interest_rate_decimal / deposits_per_year
     
-    # Calculate payment amount
-    payment_amount = goal * (interest_rate_decimal / deposits_per_year) / (future_value_factor - 1)
+    # Calculate future value of the savings goal using compound interest formula
+    future_value = savings_goal - starting_balance * (1 + periodic_interest_rate)**total_deposits
     
-    return payment_amount
+    # Calculate contribution needed per payment period
+    contribution = future_value / (((1 + periodic_interest_rate) ** total_deposits - 1) / periodic_interest_rate)
     
-
+    return contribution
