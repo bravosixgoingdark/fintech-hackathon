@@ -119,10 +119,22 @@
             <label for="saving_time">Saving Time (Years)</label>
             <input type="number" name="saving_time" class="form-control" required>
           </div>
-          <div class="form-group">
-            <label for="annual_interest_rate">Annual Interest Rate (%)</label>
-            <input type="number" step="0.01" name="annual_interest_rate" class="form-control" required>
-          </div>
+        <div class="form-group">
+          <label for="bank">Select Bank</label>
+          <select name="bank" class="form-control" id="bankSelect">
+            <option value="" disabled selected>Select Bank</option>
+            <option value="6">Vietcombank (6%)</option>
+            <option value="5.7">ABBANK (5.7%)</option>
+            <option value="5">VPBank (5%)</option>
+            <option value="4.5">Techcombank (4.5%)</option>
+            <option value="4">BIDV (4%)</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" id="customRate" style="display:none">
+          <label for="other_bank">Interest Rate</label>
+          <input type="number" name="custom_interest_rate" class="form-control">
+        </div> 
           <div class="form-group">
             <label for="deposit_frequency">Deposit Frequency</label>
             <select name="deposit_frequency" class="form-control">
@@ -136,12 +148,10 @@
         </form>
       </div>
     </div>
-    {% if contribution != 0 %} <!-- Check if contribution is set -->
-    <div class="card mt-4">
-      <div class="card-body">
-        <h4>Your monthly Contribution</h4>
+    {% if contribution is not none and contribution != 0 %} <!-- Check if contribution is set and not None -->
+    <div class="alert alert-success mt-4" role="alert">
+        <h4 class="alert-heading">Your monthly Contribution</h4>
         <p>To reach your savings goal, you will need to contribute <strong>{{ contribution }}</strong> VND per period</p>
-      </div>
     {% endif %}
   </div>
 
@@ -168,5 +178,15 @@
   <!-- Add Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('bankSelect').addEventListener('change', function() {
+      var customRate = document.getElementById('customRate');
+      if (this.value === 'other') {
+        customRate.style.display = 'block';
+      } else {
+        customRate.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>

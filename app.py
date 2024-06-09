@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import json
 import os
 from calculations import calc_contribution_per_period
+import math 
 # add future value and present value
 
 app = Flask(__name__)
@@ -41,7 +42,7 @@ def index():
             savings_goal = float(request.form['savings_goal'])
             starting_balance = float(request.form['starting_balance'])
             saving_time = int(request.form['saving_time'])
-            annual_interest_rate = float(request.form['annual_interest_rate'])
+            annual_interest_rate = float(request.form['bank'])
             deposit_frequency = request.form['deposit_frequency']
             
             # Calculate contribution
@@ -75,13 +76,18 @@ def calculate_contribution():
     savings_goal = float(request.form['savings_goal'])
     starting_balance = float(request.form['starting_balance'])
     saving_time = int(request.form['saving_time'])
-    annual_interest_rate = float(request.form['annual_interest_rate'])
+    bank = request.form['bank']
     deposit_frequency = request.form['deposit_frequency']
     
-    contribution = round(float(calc_contribution_per_period(savings_goal, starting_balance, saving_time, annual_interest_rate, deposit_frequency)), 1)
+    # Check if the "Other" option is selected for the bank and use the custom interest rate
+    if bank == 'other':
+        annual_interest_rate = float(request.form['custom_interest_rate'])
+    else:
+        annual_interest_rate = float(bank)
+    
+    contribution = math.ceil(float(calc_contribution_per_period(savings_goal, starting_balance, saving_time, annual_interest_rate, deposit_frequency)))
     save_to_json() 
-    return redirect(url_for('index')) 
-
+    return redirect(url_for('index'))
 
 @app.errorhandler(Exception)
 def all_exception_handler(error):

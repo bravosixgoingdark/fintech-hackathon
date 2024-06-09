@@ -9,3 +9,8 @@ services:
       - .:/app
     environment:
       FLASK_ENV: development
+    networks:
+      - caddy
+networks:
+  caddy:
+    external: true
